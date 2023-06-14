@@ -96,9 +96,9 @@ public class GoogleSites_Test {
 		//Cambiar el foco al frame del formulario y rellenar los campos del mismo
 		driver.switchTo().frame(0);
 		Thread.sleep(1000);
-		driver.findElement(nombreLocator).sendKeys("Masu");
+		driver.findElement(nombreLocator).sendKeys("Blabla");
 		driver.findElement(apellidosLocator).sendKeys("Bla Bla");
-		driver.findElement(correoLocator).sendKeys("masu@blabla.com");
+		driver.findElement(correoLocator).sendKeys("blabla@blabla.com");
 		
 		//Hacer click en el botón Enviar
 		driver.findElement(btnEnviar).click();

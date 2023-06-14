@@ -37,7 +37,7 @@ public class SignUpLogin_Test {
         
         //Usuario y contraseña que vamos a registrar y logar:
         String username=sb.toString();
-        String password="masu123";
+        String password="blabla123";
         System.out.println("El usuario generado es: " + username);
     	
 		//Abrir el navegador, cargar la página de inicio de https://www.demoblaze.com y maximizarla.

@@ -22,9 +22,9 @@ public class Purchase_Test {
     @Test
     public void testPurchase() throws Exception {
     	//Datos del usuario y productos que vamos a necesitar:
-        String name="Masu";
+        String name="Blabla";
         String country= "Spain";
-        String city= "Sevilla";
+        String city= "Madrid";
         String creditCard="1234 5678 9012 3456";
         String month="Junio";
         String year="2023";
