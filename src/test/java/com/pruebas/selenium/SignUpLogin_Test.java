@@ -2,6 +2,7 @@ package com.pruebas.selenium;
 
 import static org.junit.Assert.*;
 
+import java.time.Duration;
 import java.util.Random;
 
 import org.junit.After;
@@ -11,6 +12,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class SignUpLogin_Test {
     private WebDriver driver;
@@ -24,7 +27,9 @@ public class SignUpLogin_Test {
 
     @Test
     public void testRegistroUsuario() throws Exception {
-    	
+		//Configurar la espera para la aparición de elementos	
+		WebDriverWait wait= new WebDriverWait(driver,Duration.ofSeconds(10));
+		
     	//Código para generar un string aleatorio de 8 caracteres alfanuméricos (para usuario nuevo cada vez)
         String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         StringBuilder sb = new StringBuilder(8);
@@ -46,18 +51,21 @@ public class SignUpLogin_Test {
         driver.manage().window().maximize();
         
 		//Hacer clic en el enlace "Sign up" para acceder al cuadro de registro.
+        wait.until(ExpectedConditions.elementToBeClickable(By.id("signin2")));
         driver.findElement(By.id("signin2")).click();
-        Thread.sleep(1000);    	
         
 		//Completar el formulario de registro (username y password) con información válida.
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"sign-username\"]")));
         driver.findElement(By.xpath("//*[@id=\"sign-username\"]")).sendKeys(username);
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input[id=\"sign-password\"]")));
         driver.findElement(By.cssSelector("input[id=\"sign-password\"]")).sendKeys(password);
 
 		//Enviar el formulario de registro haciendo click en el botón “Sign up”.
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"signInModal\"]/div/div/div[3]/button[2]")));
     	driver.findElement(By.xpath("//*[@id=\"signInModal\"]/div/div/div[3]/button[2]")).click();
-        Thread.sleep(1000);  
         
 		//Pulsar en el botón “Aceptar” del pop-up con el mensaje de confirmación de registro exitoso.
+    	wait.until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
         driver.switchTo().defaultContent();   	
         
@@ -66,21 +74,24 @@ public class SignUpLogin_Test {
     	assertEquals("NO estás en la página Inicio, estás en: " + driver.getCurrentUrl(),"https://www.demoblaze.com/index.html", driver.getCurrentUrl());
     	
 		//Hacer click sobre el enlace “Log in”
+    	wait.until(ExpectedConditions.elementToBeClickable(By.id("login2")));
     	driver.findElement(By.id("login2")).click();
-        Thread.sleep(1000);   
         
 		//Rellenar los campos de “username” y “password” con los datos del nuevo usuario.
+    	wait.until(ExpectedConditions.elementToBeClickable(By.id("loginusername")));
         driver.findElement(By.id("loginusername")).sendKeys(username);
+    	wait.until(ExpectedConditions.elementToBeClickable(By.id("loginpassword")));
         driver.findElement(By.id("loginpassword")).sendKeys(password);
         
 		//Hacer click sobre el botón “Log in”.
-    	driver.findElement(By.xpath("//*[@id=\"logInModal\"]/div/div/div[3]/button[2]")).click();
-        Thread.sleep(1000);    
+    	wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"logInModal\"]/div/div/div[3]/button[2]")));
+    	driver.findElement(By.xpath("//*[@id=\"logInModal\"]/div/div/div[3]/button[2]")).click();  
         
 		//Verificar que el inicio de sesión es exitoso, comprobando que aparece en la página de inicio el mensaje “Welcome” + el username.
     	System.out.println("Estás en la página Inicio: " + driver.getCurrentUrl());	
         assertEquals("NO estás en la página Inicio, estás en: " + driver.getCurrentUrl(),"https://www.demoblaze.com/index.html",driver.getCurrentUrl());
-    	
+
+    	wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nameofuser")));
     	WebElement welcomeLink = driver.findElement(By.id("nameofuser"));
     	System.out.println("El mensaje esperado es: Welcome " + username + ". El texto obtenido es: " + welcomeLink.getText());
     	assertEquals("Los mensajes no son iguales","Welcome " + username, welcomeLink.getText());     
